@@ -1,12 +1,13 @@
 export class DetailDeliveryRO {
-    name: string;
-    address: string;
-    rating: number;
-    displayTotalReview: string;
-    url: string;
-    voucher: any[];
-    photos: Photo[];
-    menus: MenuInfo[];
+    name?: string;
+    address?: string;
+    rating?: number;
+    displayTotalReview?: string;
+    url?: string;
+    voucher?: any[];
+    photos?: Photo[];
+    menus?: MenuInfo[];
+    result: string;
 }
 
 export class Photo {

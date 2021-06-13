@@ -1,5 +1,5 @@
 import { HttpService, Injectable } from '@nestjs/common';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { DetailDeliveryRO, Dish, MenuInfo, Voucher } from './detail-delivery.ro';
 
@@ -34,12 +34,16 @@ export class AppService {
         const { delivery_id } = res.data.reply;
         return delivery_id;
       }),
-      mergeMap(deliveryId => {
-        const info = this.httpService.get(`https://gappapi.deliverynow.vn/api/delivery/get_detail?id_type=2&request_id=${deliveryId}`, {headers: this.headers});
-        const dishes = this.httpService.get(`https://gappapi.deliverynow.vn/api/dish/get_delivery_dishes?id_type=2&request_id=${deliveryId}`, {headers: this.headers});
-        return forkJoin({info, dishes}).pipe(map(({info, dishes}) => {
-          return this.formatData({info: info.data, dishes: dishes.data});
-        }));
+      mergeMap((deliveryId: number) => {
+        if (deliveryId === 0) {
+          return of({result: 'no_data'});
+        } else {
+          const info = this.httpService.get(`https://gappapi.deliverynow.vn/api/delivery/get_detail?id_type=2&request_id=${deliveryId}`, {headers: this.headers});
+          const dishes = this.httpService.get(`https://gappapi.deliverynow.vn/api/dish/get_delivery_dishes?id_type=2&request_id=${deliveryId}`, {headers: this.headers});
+          return forkJoin({info, dishes}).pipe(map(({info, dishes}) => {
+            return {result: 'success', ...this.formatData({info: info.data, dishes: dishes.data})};
+          }));
+        }
       })
     );
   }
