@@ -1,20 +1,29 @@
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const whitelist = ['localhost:4200', 'todayuonggi.vercel.app'];
-  const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    origin: function (origin, callback) {
-      if (!origin || whitelist.indexOf(origin) !== -1) {
-        callback(null, true)
-      } else {
-        callback(new Error('Not allowed by CORS'))
-      }
-    },
-    allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
-    methods: "GET,PUT,POST,DELETE,UPDATE,OPTIONS"
-  });
+  const options = {
+    origin: '*',
+    methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+    allowedHeaders: [
+      'Authorization',
+      'Module',
+      'X-Requested-With',
+      'Access-Control-Allow-Origin',
+      'objectcd',
+      'Content-Type',
+      'UserId',
+      'CompanyId',
+      'OrganizationId',
+      '*'
+    ]
+  };
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.enableCors(options);
   await app.listen(process.env.PORT || 6000);
 }
 bootstrap();
