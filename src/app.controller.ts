@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { DetailDeliveryRO } from './detail-delivery.ro';
 
@@ -14,5 +14,10 @@ export class AppController {
   @Get('get-detail')
   async getDetailByUrl(@Query() query: {url: string}): Promise<any> {
     return await this.appService.getDetail(query);
+  }
+
+  @Post('send-message-delivery-success')
+  async sendMessageDeliverySuccessByListUser(@Body() registrationTokens: string[]): Promise<any> {
+    return await this.appService.sendMessageDeliverySuccessByListUser(registrationTokens);
   }
 }

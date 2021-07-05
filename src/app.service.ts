@@ -1,4 +1,5 @@
 import { HttpService, Injectable } from '@nestjs/common';
+import admin from 'firebase-admin';
 import { forkJoin, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { DetailDeliveryRO, Dish, MenuInfo, Voucher } from './detail-delivery.ro';
@@ -26,6 +27,16 @@ export class AppService {
 
   async getDetail(query: {url: string}): Promise<any> {
     return (await this.getDeliveryInformation(query));
+  }
+
+  async sendMessageDeliverySuccessByListUser(registrationTokens: string[]): Promise<any> {
+    const payload = {
+      notification: {
+        title: "Đơn hàng đã hoàn thành",
+        body: "Xin mời mọi người lấy nước."
+      }
+    };
+    return await admin.messaging().sendToDevice(registrationTokens, payload);
   }
 
   private async getDeliveryInformation(query: {url: string}) {
@@ -133,5 +144,7 @@ export class AppService {
     }
     return menuItems;
   }
+
+
 
 }
