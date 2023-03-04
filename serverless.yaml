@@ -12,7 +12,7 @@ provider:
   profile: default
   memorySize: 256 # optional, in MB, default is 1024
   timeout: 30
-  # stage: dev
+  stage: dev
 
 functions:
   main:
