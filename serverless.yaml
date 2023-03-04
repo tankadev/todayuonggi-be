@@ -11,6 +11,7 @@ provider:
   region: ap-southeast-1
   profile: default
   memorySize: 256 # optional, in MB, default is 1024
+  timeout: 30
   # stage: dev
 
 functions:
@@ -20,9 +21,11 @@ functions:
       - http:
           method: ANY
           path: /
+          cors: true
       - http:
           method: ANY
           path: "{proxy+}"
+          cors: true
 
 custom:
   serverless-offline:

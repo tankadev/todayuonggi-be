@@ -21,7 +21,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "deploy:local": "node ./node_modules/serverless/bin/serverless.js offline",
-    "deploy": "sls deploy",
+    "deploy": "serverless deploy",
     "deploy:remove": "serverless remove"
   },
   "dependencies": {
