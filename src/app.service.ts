@@ -1,4 +1,5 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import admin from 'firebase-admin';
 import { forkJoin, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
@@ -30,6 +31,7 @@ export class AppService {
   }
 
   async sendMessageDeliverySuccessByListUser(registrationTokens: string[]): Promise<any> {
+    // noinspection SpellCheckingInspection
     const payload = {
       notification: {
         title: "Đơn hàng đã hoàn thành",

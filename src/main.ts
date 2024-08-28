@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import admin from 'firebase-admin';
 import { AppModule } from './app.module';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const options = {
@@ -33,6 +34,8 @@ async function bootstrap() {
     databaseURL: "https://homnaychonmongi-default-rtdb.asia-southeast1.firebasedatabase.app",
   });
   app.enableCors(options);
-  await app.listen(process.env.PORT || 6000);
+  const port = process.env.PORT || 10600;
+  await app.listen(port);
+  Logger.log(`Nest application listening on port ${port}`);
 }
 bootstrap();
